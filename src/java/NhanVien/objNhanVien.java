@@ -22,6 +22,13 @@ public class objNhanVien implements Serializable {
     
     String profile_embed;
     
+    int quanly;
+    String telegramid;
+    
+    String cccd;
+    String chucvu;
+    String hovaten;
+    
     public String getTenquyen() {
         switch (this.quyen) {
             case 1:
@@ -38,10 +45,22 @@ public class objNhanVien implements Serializable {
             case 5:
                 this.tenquyen = "deliver";
                 break;
+                case 6:
+                this.tenquyen = "ctv";
+                break;
         }
         return this.tenquyen;
     }
 
+    public int getQuanly() {
+        return quanly;
+    }
+
+    public void setQuanly(int quanly) {
+        this.quanly = quanly;
+    }
+
+    
     public void setTenquyen(String tenquyen) {
         this.tenquyen = tenquyen;
     }
@@ -154,4 +173,36 @@ public class objNhanVien implements Serializable {
         this.profile_embed = profile_embed;
     }
 
+    public String getTelegramid() {
+        return telegramid;
+    }
+
+    public void setTelegramid(String telegramid) {
+        this.telegramid = telegramid;
+    }
+
+    public String getCccd() {
+        return cccd;
+    }
+
+    public void setCccd(String cccd) {
+        this.cccd = cccd;
+    }
+
+    public String getChucvu() {
+        return chucvu;
+    }
+
+    public void setChucvu(String chucvu) {
+        this.chucvu = chucvu;
+    }
+
+    public String getHovaten() {
+        return hovaten;
+    }
+
+    public void setHovaten(String hovaten) {
+        this.hovaten = hovaten;
+    }
+    
 }

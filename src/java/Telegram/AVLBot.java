@@ -19,7 +19,7 @@ public class AVLBot extends TelegramLongPollingBot {
             SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
             message.setChatId(update.getMessage().getChatId().toString());
             message.setText(update.getMessage().getChatId().toString());
-            System.out.println("telegram: "+ update.getMessage().getChatId().toString()+ " "+ update.getMessage().getText());
+            System.out.println("telegram: " + update.getMessage().getChatId().toString() + " " + update.getMessage().getText());
             try {
                 execute(message); // Call method to send the message
             } catch (TelegramApiException e) {
@@ -54,13 +54,21 @@ public class AVLBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-    
+
     public void Telegram_Tinnhan_doitac(HoSo.objHoSo objhs, String message, String chatid) {
         if (chatid.trim().length() > 0) {
-            String mess ="[DOITAC]\n";
-            mess +="[" + objhs.getMahs() + "] - [" + objhs.getDoitac() + "] - [" + objhs.getCbthuchien() + "]\n";           
-            mess += "Tin nhắn: <b>" + message + "</b>.\n";  
+            String mess = "[DOITAC]\n";
+            mess += "[" + objhs.getMahs() + "] - [" + objhs.getDoitac() + "] - [" + objhs.getCbthuchien() + "]\n";
+            mess += "Tin nhắn: <b>" + message + "</b>.\n";
             guiTinNhan(chatid.trim(), mess);
         }
+    }
+
+    public void Telegram_sendError(String message) {
+
+        String mess = "" + message;
+        //System.out.println(chatid);
+        guiTinNhan("5799700530", message);
+
     }
 }

@@ -18,26 +18,26 @@ public class objHoSo implements Serializable {
     String cbthuchien;
     String cbcrc;
     String doitaccrc;
-            
+
     Timestamp ngaylaphs;
     Timestamp ngaysobo;
     Timestamp ngaykhaosat;
     Timestamp ngaybaogia;
     int idnvtao;
     String tennvtao;
-    
+
     int idnvsb;
     String tennvsb;
-    
+
     int idnvks;
     String tennvks;
-    
+
     int idnvgia;
     String tennvgia;
-    
+
     int idctv;
     String tenctv;
-    
+
     int tinhtrang;
     String giasobo;
     double giatd;
@@ -95,16 +95,16 @@ public class objHoSo implements Serializable {
     String hd_vat;
 
     String hinhbaogia;
-    
+
     int duyetgia;
     double giaduyet;
     String duyetgia_ghichu;
-    
-    String toadomaps;  
-    int ctnhap;    
-    int thuphi;    
+
+    String toadomaps;
+    int ctnhap;
+    int thuphi;
     String tsghichu;
-    
+
     public objHoSo() {
     }
 
@@ -193,6 +193,7 @@ public class objHoSo implements Serializable {
     public void setTenctv(String tenctv) {
         this.tenctv = tenctv;
     }
+
     public String getToadomaps() {
         return toadomaps;
     }
@@ -209,7 +210,6 @@ public class objHoSo implements Serializable {
         this.giaduyet = giaduyet;
     }
 
-    
     public int getDuyetgia() {
         return duyetgia;
     }
@@ -226,8 +226,6 @@ public class objHoSo implements Serializable {
         this.duyetgia_ghichu = duyetgia_ghichu;
     }
 
-    
-    
     public String getHinhbaogia() {
         return hinhbaogia;
     }
@@ -252,7 +250,6 @@ public class objHoSo implements Serializable {
         this.cbcrc = cbcrc;
     }
 
-    
     public String getHd_ngaynhan() {
         return hd_ngaynhan;
     }
@@ -293,10 +290,6 @@ public class objHoSo implements Serializable {
         this.hd_vat = hd_vat;
     }
 
-    
-    
-    
-    
     public String getHinhdanglodat() {
         return hinhdanglodat;
     }
@@ -817,19 +810,12 @@ public class objHoSo implements Serializable {
         this.tsghichu = tsghichu;
     }
 
-    
-
-    
-    
-   
-
-    
     public static String laynvthuchien1(int tt, objHoSo obj) {
         String str = "";
         switch (tt) {
-             case 0:
+            case 0:
                 str = obj.getTennvtao();
-                break;            
+                break;
             case 1:
                 str = obj.getTennvsb();
                 break;
@@ -850,14 +836,37 @@ public class objHoSo implements Serializable {
         }
         return str;
     }
+    public static int laynv_telegram(objHoSo obj) 
+    {
+        int str = 0;
+        switch (obj.getTinhtrang()) {
+            case 0:
+                str = obj.getIdnvtao();
+                break;
+            case 1:
+                str = obj.getIdnvsb();
+                break;
+            case 2:
+            case 3:
+                str = obj.getIdnvks();
+                break;
+            case 4:
+            case 5:
+            case 7:
+            case 9:
+            case 10:
+                str = obj.getIdnvgia();
+                break;
+            default:
+                str =0;
+                break;
+        }
+        return str;
+    }
 
-    
-    
     @Override
     public String toString() {
         return "objHoSo{" + "idhs=" + idhs + ", soct=" + soct + ", mahs=" + mahs + ", loaihd=" + loaihd + ", giatrihd=" + giatrihd + ", giatrihdbangchu=" + giatrihdbangchu + ", thue=" + thue + ", idkh=" + idkh + ", doitac=" + doitac + ", cbthuchien=" + cbthuchien + ", cbcrc=" + cbcrc + ", doitaccrc=" + doitaccrc + ", ngaylaphs=" + ngaylaphs + ", ngaysobo=" + ngaysobo + ", ngaykhaosat=" + ngaykhaosat + ", ngaybaogia=" + ngaybaogia + ", idnvtao=" + idnvtao + ", tennvtao=" + tennvtao + ", idnvks=" + idnvks + ", tennvks=" + tennvks + ", idnvgia=" + idnvgia + ", tennvgia=" + tennvgia + ", tinhtrang=" + tinhtrang + ", giasobo=" + giasobo + ", giatd=" + giatd + ", nvthuchien=" + nvthuchien + ", in_dain=" + in_dain + ", in_idnv=" + in_idnv + ", in_tennv=" + in_tennv + ", in_thoigian=" + in_thoigian + ", in_note=" + in_note + ", giao_dagiao=" + giao_dagiao + ", giao_idnv=" + giao_idnv + ", giao_tennv=" + giao_tennv + ", giao_thoigiankh=" + giao_thoigiankh + ", giao_thoigiannh=" + giao_thoigiannh + ", giao_chukykh=" + giao_chukykh + ", giao_chukynh=" + giao_chukynh + ", giao_tenkh=" + giao_tenkh + ", giao_tennh=" + giao_tennh + ", giao_noteKH=" + giao_noteKH + ", giao_noteNH=" + giao_noteNH + ", nguoilienheks=" + nguoilienheks + ", nguoilienhesdt=" + nguoilienhesdt + ", trangthaihs=" + trangthaihs + ", hscode=" + hscode + ", sohats=" + sohats + ", isclose=" + isclose + ", diachi=" + diachi + ", phuongxa=" + phuongxa + ", quanhuyen=" + quanhuyen + ", tinhtp=" + tinhtp + ", fulldiachi=" + fulldiachi + ", fullcanbo=" + fullcanbo + ", tamung=" + tamung + ", giao_loai=" + giao_loai + ", tongdientich=" + tongdientich + ", hinhanh=" + hinhanh + ", ngayphathanh=" + ngayphathanh + ", chinhanh=" + chinhanh + ", hinhdanglodat=" + hinhdanglodat + ", duongtruocnha=" + duongtruocnha + ", hd_ngaynhan=" + hd_ngaynhan + ", hd_ngaygiao=" + hd_ngaygiao + ", hd_ngaythu=" + hd_ngaythu + ", hd_ghichu=" + hd_ghichu + ", hd_vat=" + hd_vat + "}";
     }
-    
-    
-    
+
 }

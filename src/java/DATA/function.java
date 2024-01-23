@@ -1,6 +1,7 @@
 package DATA;
 
 
+import Telegram.AVLBot;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -64,7 +65,7 @@ public class function {
 
             return timeStampDate;
         } catch (ParseException e) {
-            function.Print_log("convertStringToTimestamp Exception :" + e);
+            //function.Print_log("convertStringToTimestamp Exception :" + e);
             Date date = new Date();
             java.sql.Timestamp timeStampDate = new java.sql.Timestamp(date.getTime());
 
@@ -82,7 +83,7 @@ public class function {
 
             return timeStampDate;
         } catch (ParseException e) {
-            function.Print_log("convertStringToTimestamp Exception :" + e);
+            //function.Print_log("convertStringToTimestamp Exception :" + e);
             Date date = new Date();
             java.sql.Timestamp timeStampDate = new java.sql.Timestamp(date.getTime());
 
@@ -174,7 +175,7 @@ public class function {
             return base64_EncryptedData + ":" + base64_IV;
 
         } catch (Exception ex) {
-            Print_log("encrypt " + ex.getMessage());
+            //Print_log("encrypt " + ex.getMessage());
         }
 
         return null;
@@ -191,7 +192,7 @@ public class function {
             byte[] original = cipher.doFinal(decodedEncryptedData);
             return new String(original);
         } catch (Exception ex) {
-            Print_log("decrypt " + ex.getMessage());
+            //Print_log("decrypt " + ex.getMessage());
         }
 
         return null;
@@ -210,6 +211,8 @@ public class function {
             filewriter.write(input, 0, input.length());
             filewriter.flush();
             filewriter.close();
+            Telegram.AVLBot bot=new AVLBot();
+            bot.Telegram_sendError(msg);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
