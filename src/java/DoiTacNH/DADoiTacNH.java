@@ -7,9 +7,26 @@ import ThongBao.objThongBao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DADoiTacNH {
+
+    private static objDoiTacNH getObjectbyRs(ResultSet rs) throws SQLException {
+        objDoiTacNH obj = new objDoiTacNH();
+        obj.setTendoitac(rs.getNString("tendoitac"));
+        obj.setTencanbo(rs.getNString("tencanbo"));
+        obj.setDiachi(rs.getNString("diachi"));
+        obj.setDienthoai(rs.getString("dienthoai"));
+        obj.setEmail(rs.getString("email"));
+        obj.setTinhtrang(rs.getInt("tinhtrang"));
+        obj.setDaxoa(rs.getInt("daxoa"));
+        obj.setIddtnh(rs.getInt("iddtnh"));
+        obj.setQuanly(rs.getInt("quanly"));
+        obj.setAvatar(rs.getString("avata"));
+        obj.setCumchucnang(rs.getNString("cumchucnang"));
+        return obj;
+    }
 
     public static int update_matkhau(String mkmoi, int iddtnh, String cn) {
         int kq = 0;
@@ -58,16 +75,7 @@ public class DADoiTacNH {
             PreparedStatement psm = conn.prepareStatement(sql);
             ResultSet rs = psm.executeQuery();
             while (rs.next()) {
-                objDoiTacNH obj = new objDoiTacNH();
-                obj.setTendoitac(rs.getNString("tendoitac"));
-                obj.setTencanbo(rs.getNString("tencanbo"));
-                obj.setDiachi(rs.getNString("diachi"));
-                obj.setDienthoai(rs.getString("dienthoai"));
-                obj.setEmail(rs.getString("email"));
-                obj.setTinhtrang(rs.getInt("tinhtrang"));
-                obj.setDaxoa(rs.getInt("daxoa"));
-                obj.setIddtnh(rs.getInt("iddtnh"));
-                arr.add(obj);
+                arr.add(getObjectbyRs(rs));
             }
             conn.close();
         } catch (Exception e) {
@@ -89,17 +97,7 @@ public class DADoiTacNH {
             psm.setNString(1, tendoitac);
             ResultSet rs = psm.executeQuery();
             while (rs.next()) {
-                objDoiTacNH obj = new objDoiTacNH();
-                obj.setTendoitac(rs.getNString("tendoitac"));
-                obj.setTencanbo(rs.getNString("tencanbo"));
-                obj.setDiachi(rs.getNString("diachi"));
-                obj.setDienthoai(rs.getString("dienthoai"));
-                obj.setEmail(rs.getString("email"));
-                obj.setTinhtrang(rs.getInt("tinhtrang"));
-                obj.setDaxoa(rs.getInt("daxoa"));
-                obj.setIddtnh(rs.getInt("iddtnh"));
-                obj.setCumchucnang(rs.getNString("cumchucnang"));
-                arr.add(obj);
+                arr.add(getObjectbyRs(rs));
             }
             conn.close();
         } catch (Exception e) {
@@ -132,6 +130,28 @@ public class DADoiTacNH {
         return arr;
     }
 
+    public static objDoiTacNH geDoiTacNH_truongNhom(int iduser, String cn) {
+        objDoiTacNH obj = new objDoiTacNH();
+        try {
+            //System.out.println(u+p);
+            DBConnection db = new DBConnection();
+            db.setDb(cn);
+            Connection conn = db.getConnection();
+            String sql = "select  a.* from tbl_doitacnh a where a.iddtnh in (select idmanager from tbl_doitacnh_qly where iduser=? )";
+            PreparedStatement psm = conn.prepareStatement(sql);
+            psm.setInt(1, iduser);
+            ResultSet rs = psm.executeQuery();
+            while (rs.next()) {
+                obj = getObjectbyRs(rs);
+            }
+            conn.close();
+        } catch (Exception e) {
+            function.Print_log("geDoiTacNHby_truongNhom  " + e.getMessage());
+        }
+
+        return obj;
+    }
+
     public static objDoiTacNH geDoiTacNHby_id(int iddtnh, String cn) {
         objDoiTacNH obj = new objDoiTacNH();
         try {
@@ -144,16 +164,7 @@ public class DADoiTacNH {
             psm.setInt(1, iddtnh);
             ResultSet rs = psm.executeQuery();
             while (rs.next()) {
-
-                obj.setTendoitac(rs.getNString("tendoitac"));
-                obj.setTencanbo(rs.getNString("tencanbo"));
-                obj.setDiachi(rs.getNString("diachi"));
-                obj.setDienthoai(rs.getString("dienthoai"));
-                obj.setEmail(rs.getString("email"));
-                obj.setTinhtrang(rs.getInt("tinhtrang"));
-                obj.setDaxoa(rs.getInt("daxoa"));
-                obj.setIddtnh(rs.getInt("iddtnh"));
-                obj.setCumchucnang(rs.getNString("cumchucnang"));
+                obj = getObjectbyRs(rs);
             }
             conn.close();
         } catch (Exception e) {
@@ -175,7 +186,6 @@ public class DADoiTacNH {
             psm.setString(1, email);
             ResultSet rs = psm.executeQuery();
             while (rs.next()) {
-
                 obj.setTendoitac(rs.getNString("tendoitac"));
                 obj.setTencanbo(rs.getNString("tencanbo"));
                 obj.setDiachi(rs.getNString("diachi"));
@@ -184,9 +194,10 @@ public class DADoiTacNH {
                 obj.setTinhtrang(rs.getInt("tinhtrang"));
                 obj.setDaxoa(rs.getInt("daxoa"));
                 obj.setIddtnh(rs.getInt("iddtnh"));
+                obj.setQuanly(rs.getInt("quanly"));
                 obj.setAvatar(rs.getString("avata"));
                 obj.setCumchucnang(rs.getNString("cumchucnang"));
-                 obj.setDbname(rs.getString("chinhanh"));
+                obj.setDbname(rs.getString("chinhanh"));
             }
             conn.close();
         } catch (Exception e) {
@@ -200,7 +211,7 @@ public class DADoiTacNH {
         objDoiTacNH obj = new objDoiTacNH();
         try {
             //System.out.println(u+p);
-            DBSYScon db=new DBSYScon();          
+            DBSYScon db = new DBSYScon();
             Connection conn = db.getConnection();
             String sql = "select  * from v_DoiTac_getALL where email=? and matkhau=? ";
             PreparedStatement psm = conn.prepareStatement(sql);
@@ -233,7 +244,7 @@ public class DADoiTacNH {
         objDoiTacNH obj = new objDoiTacNH();
         try {
             //System.out.println(u+p);
-            DBSYScon db=new DBSYScon();        
+            DBSYScon db = new DBSYScon();
             Connection conn = db.getConnection();
             String sql = "select  * from v_DoiTac_getALL where email=?  ";
             PreparedStatement psm = conn.prepareStatement(sql);
@@ -251,7 +262,7 @@ public class DADoiTacNH {
                 obj.setQuanly(rs.getInt("quanly"));
                 obj.setAvatar(rs.getString("avata"));
                 obj.setCumchucnang(rs.getNString("cumchucnang"));
-                 obj.setDbname(rs.getString("chinhanh"));
+                obj.setDbname(rs.getString("chinhanh"));
             }
             conn.close();
         } catch (Exception e) {
@@ -265,7 +276,7 @@ public class DADoiTacNH {
         boolean kq = false;
         try {
             //System.out.println(u+p);
-            DBSYScon db=new DBSYScon();        
+            DBSYScon db = new DBSYScon();
             Connection conn = db.getConnection();
             String sql = "select  * from tbl_config where name='admindoitac' and value=?  ";
             PreparedStatement psm = conn.prepareStatement(sql);

@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.Part;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -245,5 +246,34 @@ public class function {
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
+    }
+    public static String tinnhan_formatText_imgpdf(String text, String mahs) {
+        // Định dạng cho file
+        Pattern filePattern = Pattern.compile("<file>(.*?)</file>");
+        Matcher fileMatcher = filePattern.matcher(text);
+        String fileFormat = "<a style=\"color:yellow; background-color:black; padding:5px 10px; border-radius:5px; text-decoration:none; font-weight:bold;\" href=\"data/" + mahs + "/tinnhan/$1\" target=\"_blank\">"
+                + "<i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> $1 </a>";
+
+        text = fileMatcher.replaceAll(fileFormat);
+
+        // Định dạng cho image
+        Pattern imgPattern = Pattern.compile("<img>(.*?)</img>");
+        Matcher imgMatcher = imgPattern.matcher(text);
+        String imgFormat = "<a href=\"data/" + mahs + "/tinnhan/$1\" class=\"MagicZoom\" data-gallery=\"gallery\" data-options=\"hint:false; zoomMode:off;rightClick:true;\" >\n"
+                + "    <img src=\"data/" + mahs + "/tinnhan/$1\" />\n"
+                + "</a>";
+        text = imgMatcher.replaceAll(imgFormat);
+
+        return text;
+    }
+     public static String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
     }
 }

@@ -42,10 +42,10 @@ public class sl_tinnhanADD extends HttpServlet {
                 if (DALTinNhan.themmoi_mess(obj, avl_login.getDbname()) > 0) {
                     
                     Telegram.AVLBot avlbot=new AVLBot();
-                    //avlbot.Telegram_Tinnhan_doitac(objhs, obj.getMess(),"1978358030"); // 5799700530 vu 1978358030 duy
+                    avlbot.Telegram_Tinnhan_doitac(objhs, obj.getMess(),"1978358030"); // 5799700530 vu 1978358030 duy
                     int idnv=HoSo.objHoSo.laynv_telegram(objhs);
                     String teleid=NhanVien.DANhanVien.getNhanVienby_id(idnv, avl_login.getDbname()).getTelegramid();
-                    System.out.println(idnv+"    "+teleid);
+                    //System.out.println(idnv+"    "+teleid);
                     avlbot.Telegram_Tinnhan_doitac(objhs, obj.getMess(),teleid); 
                     
                     ArrayList<objNhanVien> arrNV = (ArrayList<objNhanVien>) session.getAttribute("hsedit_arrNV");
@@ -60,8 +60,7 @@ public class sl_tinnhanADD extends HttpServlet {
                         objtb.setIdloai(objhs.getIdhs());
                         objtb.setNhomtb(6);
                         ThongBao.DALThongBao.themmoiTB(objtb, avl_login.getDbname());
-                    }               
-                    
+                    }    
                     response.getWriter().write("ok");
                 } else {
                     response.getWriter().write("[ERROR] lỗi hệ thống. vui lòng thử lại.");

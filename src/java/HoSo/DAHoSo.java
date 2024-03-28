@@ -189,6 +189,9 @@ public class DAHoSo {
         return (ArrayList<objHoSo>) list;
     }
 
+    
+    
+      
     public static objHoSo getHSBy_id(int idhs, String cn) {
         objHoSo obj = new objHoSo();
         try {

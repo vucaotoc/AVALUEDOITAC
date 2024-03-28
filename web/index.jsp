@@ -78,7 +78,7 @@
         <!-- bootstrap datepicker -->
         <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
-        <link href="dist/css/css_customs.css" rel="stylesheet" type="text/css"/>   
+       
         <link href="dist/css/signature/signaturepad.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
@@ -140,8 +140,9 @@
 
         <script src="dist/js/easy.qrcode.min.js" type="text/javascript"></script>
         <script src="dist/js/html2canvas.min.js" type="text/javascript"></script>
-
-
+        
+        <link href="dist/zoomimage/magiczoomplus.css" rel="stylesheet" type="text/css"/>
+        <script src="dist/zoomimage/magiczoomplus.js" type="text/javascript"></script>
     </head>
 
 

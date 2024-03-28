@@ -16,7 +16,7 @@
         SimpleDateFormat dtf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         objDoiTacNH avl_login = (objDoiTacNH) session.getAttribute("avl_dangnhap");
 
-        objTraCuuHS objtc =new objTraCuuHS();
+        objTraCuuHS objtc = new objTraCuuHS();
         if (session.getAttribute("objtc") != null) {
             objtc = (objTraCuuHS) session.getAttribute("objtc");
         }
@@ -338,7 +338,7 @@
                                                     if (session.getAttribute("hsedit_arrTN") != null) {
                                                         ArrayList<objTinNhan> arrTN = (ArrayList<objTinNhan>) session.getAttribute("hsedit_arrTN");
                                                         for (objTinNhan obj : arrTN) {
-                                                            if (obj.getIdcbsend() == avl_login.getIddtnh()) {%>
+                                                            if (obj.getIdnvsend() == 0) {%>
                                                 <!-- Message to the right -->
                                                 <div class="direct-chat-msg right">
                                                     <div class="direct-chat-infos clearfix">
@@ -384,7 +384,8 @@
                                                 <div class="input-group">
                                                     <input type="text" name="message" id="message" placeholder="Nhập tin nhắn ..." class="form-control">
                                                     <span class="input-group-append">
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modalsendmess" >Send</button>
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modalsendmess" >Send</button>                                                        
+                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Modalsendfile" >File <i class="fa fa-files-o" ></i></button>
                                                     </span>
                                                 </div>
                                             </form>
@@ -411,7 +412,83 @@
                                                 </div>
                                                 <!-- /.modal-dialog -->
                                             </div>   
+
+                                            
+                                            <div class="modal fade" id="Modalsendfile">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">                                                          
+                                                            <h4 class="modal-title">Gửi File<br/>
+                                                                <span class="text-red">Không quá 5 file và tổng dung lượng không vượt quá 50 MB</span>
+                                                            </h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">      
+                                                            <form method="post" action="tinnhanfile" enctype="multipart/form-data" onsubmit="return(validate());" >
+                                                                <input type="hidden" name="hosoid" value="<%=objhs.getIdhs()%>"/>
+                                                                <div class="col-lg-12"> 
+                                                                    <label>Chọn file upload:</label>
+                                                                    <input type="file" name="file" size="10" multiple="true" class="form-control" id="fileupload" />
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-12">
+                                                                    <div >
+                                                                        <table id="showfilename" class=" table table-hover table-striped">
+                                                                        </table>
+                                                                    </div>  
+                                                                </div>      
+                                                                <div class="col-lg-12">
+                                                                    <input type="submit" value="Upload" id="upfilehoso"  name="themmoi" class="btn btn-success float-right" />
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                        <div class="modal-footer justify-content-between">                                   
+                                                            <button type="button" class="btn bg-navy pull-left" data-dismiss="modal">Đóng</button>   
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>  
+
+
                                             <script type type="text/javascript">
+                                                function bytesToSize(x) {
+                                                    units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+                                                    let l = 0, n = parseInt(x, 10) || 0;
+                                                    while (n >= 1024 && ++l) {
+                                                        n = n / 1024;
+                                                    }
+                                                    return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
+                                                }
+                                                $('#fileupload').on('change', function () {
+                                                    var files = '';
+                                                    var tong_byte = 0;
+                                                    for (var i = 0; i < $(this)[0].files.length; i++) {
+                                                        tong_byte += $(this)[0].files[i].size;
+                                                        files += "<tr> <td><a href=\"#\" >" + $(this)[0].files[i].name + "</a></td> <td><a href=\"#\" >" + bytesToSize($(this)[0].files[i].size) + "</a></td> </tr>";
+                                                    }
+                                                    files += "<tr class=\"text-red\"> <td >Tổng dung lượng file:</td> <td>" + bytesToSize(tong_byte) + "</td> </tr>";
+                                                    document.getElementById('showfilename').innerHTML = files;
+                                                    if ((tong_byte / (1024 * 1024)) > 50 || $(this)[0].files.length > 5)
+                                                    {
+                                                        document.getElementById('upfilehoso').style.display = "none";
+                                                        alert('Tổng dung lượng file vượt quá hạn mức cho phép 50 MB hoặc Nhiều hơn 5 file. Vui lòng thử lại.');
+                                                    } else {
+                                                        document.getElementById('upfilehoso').style.display = "block";
+                                                    }
+                                                });
+                                                function validate() {
+                                                    var inputField = document.getElementById('fileupload');
+                                                    if (inputField.files.length === 0) {
+                                                        alert("Vui lòng chọn file để upload");
+                                                        inputField.focus();
+                                                        return false;
+                                                    }
+                                                }
                                                 function sendmess() {
                                                     document.getElementById('tbloisendmess').removeAttribute('h4');
                                                     var mess = document.getElementById('message').value;

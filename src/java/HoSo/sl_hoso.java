@@ -37,12 +37,23 @@ public class sl_hoso extends HttpServlet {
         if (session.getAttribute("avl_dangnhap") != null) {
             objDoiTacNH avl_login = (objDoiTacNH) session.getAttribute("avl_dangnhap");
             if (request.getParameter("getlist") != null) {
-                //System.out.println("a");
+                //System.out.println("a");                
                 ArrayList<objHoSo> arrhs = new ArrayList<>();
+                //System.out.println("1");
                 if (avl_login.getQuanly() == 1) {
+                       //System.out.println("2");
                     arrhs = DAHoSo.getAllListHSby_DoitacCanBo_qly(avl_login.getTendoitac(), avl_login.getTencanbo(), avl_login.getDbname());
                 } else {
-                    arrhs = DAHoSo.getAllListHSby_DoitacCanBo(avl_login.getTendoitac(), avl_login.getTencanbo(), avl_login.getDbname());
+                       //System.out.println("3");
+                    objDoiTacNH objcb=DADoiTacNH.geDoiTacNH_truongNhom(avl_login.getIddtnh(),avl_login.getDbname());
+                    if(objcb.getQuanly()==1){
+                         //System.out.println("4");
+                         arrhs = DAHoSo.getAllListHSby_DoitacCanBo_qly(objcb.getTendoitac(), objcb.getTencanbo(), avl_login.getDbname());
+                    }else{
+                           //System.out.println("5");
+                        arrhs = DAHoSo.getAllListHSby_DoitacCanBo(avl_login.getTendoitac(), avl_login.getTencanbo(), avl_login.getDbname());
+                    }
+                    
                 }
                 String json = "{\"hoso\":" + new Gson().toJson(arrhs) + "}";
 
@@ -164,13 +175,16 @@ public class sl_hoso extends HttpServlet {
 
                     //lay tin nhan
                     ArrayList<objTinNhan> arrTN = DALTinNhan.getAllTinNhanby_idhs(objhs.getIdhs(), avl_login.getDbname());
+                    for (int i = 0; i < arrTN.size(); i++) {
+                        arrTN.get(i).setMess(DATA.function.tinnhan_formatText_imgpdf(arrTN.get(i).getMess(), objhs.getMahs().trim()));
+                    }
                     session.setAttribute("hsedit_arrTN", arrTN);
 
                     //thong tin ho so scan
                     ArrayList<objHAPhapLy> arrHSSC = DAHAPhapLy.getAllHSSC_in_HS(objhs.getIdhs(), avl_login.getDbname());
                     session.setAttribute("hoso_scan", arrHSSC);
 
-                } 
+                }
                 request.setAttribute("title_page", "Thông Tin Hồ  [" + objhs.getMahs() + "] ");
                 RequestDispatcher dispatcher = request.getServletContext()
                         .getRequestDispatcher("/index.jsp?hsct=yes");

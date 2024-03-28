@@ -33,6 +33,7 @@ public class DALTinNhan {
                 obj.setMahs(rs.getString("mahs"));
                 obj.setTime(rs.getTimestamp("timegui"));
                 obj.setAvataNV(rs.getString("avatanv"));
+                
                 arr.add(obj);
             }
             conn.close();
